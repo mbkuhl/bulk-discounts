@@ -24,6 +24,21 @@ describe "merchant bulk discounts index" do
         expect(page).to have_content("Percentage Discount: 30")
         expect(page).to_not have_content("Percentage Discount: 35")
       end
+
+      it "Next To each bulk discount I see a button to delete it. When clicked, I am redirected back to the same page where I no longer see the discount listed" do
+        visit "/merchants/#{@merchant1.id}/bulk_discounts"
+        expect(page).to have_content("Hair Care's Bulk Discounts:")
+        expect(page).to have_content("Quantity Threshold: 5")
+        expect(page).to have_content("Percentage Discount: 20")
+        expect(page).to have_content("Quantity Threshold: 10")
+        expect(page).to have_content("Percentage Discount: 30")
+        click_button "Delete Bulk Discount #{@bulk_discount1.id}"
+        expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
+        expect(page).to_not have_content("Quantity Threshold: 5")
+        expect(page).to_not have_content("Percentage Discount: 20")
+        expect(page).to have_content("Quantity Threshold: 10")
+        expect(page).to have_content("Percentage Discount: 30")
+      end
     end
   end
 
