@@ -1,0 +1,6 @@
+<h3><%= "#{@merchant.name}'s Bulk Discounts:" %></h3>
+<% @merchant.bulk_discounts.each_with_index do |bulk_discount, index| %>
+  <h5><%= "Bulk Discount ##{index+1}" %></h5>
+  <p><%= "Quantity Threshold: #{bulk_discount.quantity_threshold}" %></p>
+  <p><%= "Percentage Discount: #{bulk_discount.percentage_discount}" %></p>
+<% end %>
