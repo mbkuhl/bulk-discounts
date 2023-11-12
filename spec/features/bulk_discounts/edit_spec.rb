@@ -16,11 +16,11 @@ describe "merchant bulk discounts edit" do
       click_link("Edit Bulk Discount #{@bulk_discount1.id}")
       expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}/edit")
       expect(page).to have_content("Bulk Discount #{@bulk_discount1.id}")
-      expect(find_field("Quantity Threshold").value).to eq("5")
-      expect(find_field("Percentage Discount").value).to eq("20")
+      expect(find_field("Quantity threshold").value).to eq("5")
+      expect(find_field("Percentage discount").value).to eq("20")
 
-      fill_in "Quantity Threshold", with: "6"
-      fill_in "Percentage Discount", with: "21"
+      fill_in "Quantity threshold", with: "6"
+      fill_in "Percentage discount", with: "21"
 
       click_button "Submit"
 
