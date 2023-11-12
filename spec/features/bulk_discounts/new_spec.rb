@@ -13,7 +13,7 @@ describe "Merchant Bulk Discount New" do
     click_link("Create New Bulk Discount")
 
     expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/new")
-
+    
     fill_in :quantity_threshold, with: "10"
     fill_in :percentage_discount, with: "15"
 
