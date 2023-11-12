@@ -15,7 +15,6 @@ describe "merchant bulk discounts index" do
       it "Where I see all of my bulk discounts including their percentage discount and quantity thresholds And each bulk discount listed includes a link to its show page" do
         visit "/merchants/#{@merchant1.id}/dashboard"
         click_link "Bulk Discounts"
-        save_and_open_page
         expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
         expect(page).to have_content("Hair Care's Bulk Discounts:")
         expect(page).to have_content("Quantity Threshold: 5")
