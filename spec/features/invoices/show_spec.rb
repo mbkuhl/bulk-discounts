@@ -27,21 +27,24 @@ RSpec.describe "invoices show" do
     @invoice_3 = Invoice.create!(customer_id: @customer_2.id, status: 2)
     @invoice_4 = Invoice.create!(customer_id: @customer_3.id, status: 2)
     @invoice_5 = Invoice.create!(customer_id: @customer_4.id, status: 2)
-    @invoice_6 = Invoice.create!(customer_id: @customer_5.id, status: 2)
     @invoice_7 = Invoice.create!(customer_id: @customer_6.id, status: 2)
+    
+    @invoice_6 = Invoice.create!(customer_id: @customer_5.id, status: 2)
 
     @invoice_8 = Invoice.create!(customer_id: @customer_6.id, status: 1)
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2)
+    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2) #nd - 90 d - 81
     @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
     @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
     @ii_4 = InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_3.id, quantity: 3, unit_price: 5, status: 1)
     @ii_6 = InvoiceItem.create!(invoice_id: @invoice_5.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1)
+    @ii_8 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_8.id, quantity: 1, unit_price: 5, status: 1) # nd - 5
+    @ii_9 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1) # nd - 1
+    @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1) #nd - 72 d - 54
+    
     @ii_7 = InvoiceItem.create!(invoice_id: @invoice_6.id, item_id: @item_7.id, quantity: 1, unit_price: 3, status: 1)
-    @ii_8 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_8.id, quantity: 1, unit_price: 5, status: 1)
-    @ii_9 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1)
+   
     @ii_10 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_5.id, quantity: 1, unit_price: 1, status: 1)
-    @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
 
     @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
     @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_2.id)
@@ -98,6 +101,18 @@ RSpec.describe "invoices show" do
     within("#current-invoice-status") do
       expect(page).to_not have_content("in progress")
     end
+  end
+
+  it "shows the total revenue for my merchant from this invoice (not including discounts), and the total discounted revenue for my merchant including bulk discounts in the calc" do
+    @bulk_discount1 = @merchant1.bulk_discounts.create!(quantity_threshold: 5, percentage_discount: 10)
+    @bulk_discount2 = @merchant1.bulk_discounts.create!(quantity_threshold: 10, percentage_discount: 25)
+    visit "/merchants/#{@merchant1.id}/invoices/#{@invoice_7.id}"
+    save_and_open_page
+    expect(page).to have_content("Total Revenue: 6")
+    expect(page).to have_content("Discounted Revenue: 6")
+    visit "/merchants/#{@merchant1.id}/invoices/#{@invoice_1.id}"
+    expect(page).to have_content("Total Revenue: 162")
+    expect(page).to have_content("Discounted Revenue: 135")
   end
 
 end
