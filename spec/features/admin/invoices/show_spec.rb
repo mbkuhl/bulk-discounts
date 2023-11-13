@@ -126,7 +126,6 @@ describe "Admin Invoices Index Page" do
     bulk_discount1 = merchant1.bulk_discounts.create!(quantity_threshold: 5, percentage_discount: 10)
     bulk_discount2 = merchant1.bulk_discounts.create!(quantity_threshold: 12, percentage_discount: 25)
     visit "admin/invoices/#{invoice_7.id}"
-    save_and_open_page
     expect(page).to have_content("Total Revenue: $6.00")
     expect(page).to have_content("Discounted Revenue: $6.00")
     visit "admin/invoices/#{invoice_1.id}"
