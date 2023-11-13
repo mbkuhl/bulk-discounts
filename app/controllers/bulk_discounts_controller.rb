@@ -6,6 +6,7 @@ class BulkDiscountsController < ApplicationController
 
   def show
     @bulk_discount = BulkDiscount.find(params[:id])
+    @merchant = @bulk_discount.merchant # Added to make the topnav work when coming from invoices page
   end
 
   def new

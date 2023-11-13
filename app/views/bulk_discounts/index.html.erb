@@ -1,3 +1,5 @@
+<%= render partial: "shared/nav" %>
+
 <h3><%= "#{@merchant.name}'s Bulk Discounts:" %></h3>
 <% @merchant.bulk_discounts.each do |bulk_discount| %>
   <h5><%= "Bulk Discount ##{bulk_discount.id}" %></h5>
