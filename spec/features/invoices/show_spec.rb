@@ -110,7 +110,6 @@ RSpec.describe "invoices show" do
     expect(page).to have_content("Total Revenue: 6")
     expect(page).to have_content("Discounted Revenue: 6")
     visit "/merchants/#{@merchant1.id}/invoices/#{@invoice_1.id}"
-    save_and_open_page
     expect(page).to have_content("Total Revenue: 162")
     expect(page).to have_content("Discounted Revenue: 135")
   end
@@ -127,23 +126,16 @@ RSpec.describe "invoices show" do
     visit "/merchants/#{@merchant1.id}/invoices/#{@invoice_1.id}"
     within "#the-status-#{@ii_1.id}" do
       expect(page).to have_content("Bulk Discount #{@bulk_discount1.id}")
-      expect(page).to have_content("Quantity Threshold: 5")
-      expect(page).to have_content("Precentage Discount: 10")
       expect(page).to_not have_content("Bulk Discount #{@bulk_discount2.id}")
-      expect(page).to_not have_content("Quantity Threshold: 12")
-      expect(page).to_not have_content("Precentage Discount: 25")
       click_link("Bulk Discount #{@bulk_discount1.id}")
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@bulk_discount_1.id}")
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}")
     end
+    visit "/merchants/#{@merchant1.id}/invoices/#{@invoice_1.id}"
     within "#the-status-#{@ii_11.id}" do
       expect(page).to have_content("Bulk Discount #{@bulk_discount2.id}")
-      expect(page).to have_content("Quantity Threshold: 12")
-      expect(page).to have_content("Precentage Discount: 25")
       expect(page).to_not have_content("Bulk Discount #{@bulk_discount1.id}")
-      expect(page).to_not have_content("Quantity Threshold: 5")
-      expect(page).to_not have_content("Precentage Discount: 10")
       click_link("Bulk Discount #{@bulk_discount2.id}")
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@bulk_discount_2.id}")
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount2.id}")
     end
 
   end

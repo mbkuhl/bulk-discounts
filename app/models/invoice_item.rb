@@ -18,4 +18,12 @@ class InvoiceItem < ApplicationRecord
   def applied_discount
     item.merchant.bulk_discounts.where("quantity_threshold <= #{quantity}").order("percentage_discount desc").first
   end
+
+  def discounted_revenue
+    if applied_discount.nil?
+      quantity * unit_price
+    else
+      ((100 - applied_discount.percentage_discount).to_f/100 * quantity * unit_price).to_i
+    end
+  end
 end
