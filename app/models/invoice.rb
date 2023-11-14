@@ -7,6 +7,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
+  has_many :bulk_discounts, through: :merchants
 
   enum status: [:cancelled, :in_progress, :completed]
 
@@ -31,5 +32,9 @@ class Invoice < ApplicationRecord
   #     group by invoices.id
   #           order by discounted_price desc")
   #           require 'pry'; binding.pry
+  # end
+
+  # def discounted_revenue
+  #   invoice_items.sum("unit_price * quantity * (100 - #{InvoiceItem.find(self.invoice_items.first.id).item.merchant.bulk_discounts.max("percentage_discount")} / 100)" )
   # end
 end
