@@ -5,4 +5,8 @@ class BulkDiscount < ApplicationRecord
   belongs_to :merchant
   has_many :items, through: :merchant
   has_many :invoice_items, through: :items
+
+  def has_pending_invoice_items?
+    invoice_items.where(status: :pending).count > 0
+  end
 end
