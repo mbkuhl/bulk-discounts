@@ -6,7 +6,7 @@ class BulkDiscountsController < ApplicationController
 
   def show
     @bulk_discount = BulkDiscount.find(params[:id])
-    @merchant = @bulk_discount.merchant # Added to make the topnav work when coming from invoices page
+    @merchant = @bulk_discount.merchant # Added to make the topnav work so it's less annoying to click around
   end
 
   def new
@@ -20,6 +20,7 @@ class BulkDiscountsController < ApplicationController
   
   def edit
     @bulk_discount = BulkDiscount.find(params[:id])
+    @merchant = @bulk_discount.merchant # Added to make the topnav work so it's less annoying to click around
   end
 
   def update

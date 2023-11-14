@@ -17,4 +17,19 @@ class Invoice < ApplicationRecord
   def discounted_revenue
     invoice_items.sum { |ii| ii.discounted_revenue }.to_i
   end
+
+  # def discounted_revenue
+  #   results = ActiveRecord::Base.connection.execute("select invoices.id, sum(invoice_items.unit_price * invoice_items.quantity * (1 - (dt.max_discount/100))) as discounted_price from invoices
+  #   inner join invoice_items on invoice_items.invoice_id = invoices.id
+  #   inner join
+  #   (select invoice_items.id as iiid, coalesce(max(bulk_discounts.percentage_discount), 0) as max_discount from invoice_items
+  #   inner join items on items.id = invoice_items.id
+  #   inner join merchants on merchants.id = items.merchant_id
+  #   left join bulk_discounts on merchants.id = bulk_discounts.merchant_id
+  #   group by invoice_items.id) dt on dt.iiid = invoice_items.id
+  #   where invoices.id = #{id}
+  #     group by invoices.id
+  #           order by discounted_price desc")
+  #           require 'pry'; binding.pry
+  # end
 end
